@@ -90,8 +90,11 @@ const LoginPage = () => {
             </Button>
           </form>
         </CardContent>
-        <CardFooter className="px-0 pt-2">
-          Don't have an account? <Link to="/signup">Sign up</Link>
+        <CardFooter className="justify-center text-sm text-muted-foreground">
+          Don't have an account?{" "}
+          <Link to="/signup" className="ml-1 font-medium text-primary hover:underline">
+            Sign up
+          </Link>
         </CardFooter>
       </Card>
     </div>

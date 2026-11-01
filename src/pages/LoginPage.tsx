@@ -56,6 +56,7 @@ const LoginPage = () => {
                 <Input
                   id="login-email"
                   type="email"
+                  placeholder="you@example.com"
                   autoComplete="email"
                   aria-invalid={!!errors.email}
                   aria-describedby={errors.email ? "login-email-error" : undefined}

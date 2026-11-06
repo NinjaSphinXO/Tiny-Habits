@@ -9,6 +9,10 @@ export const loginSchema = z.object({
 
 export const signupSchema = z
   .object({
+    username: z
+      .string()
+      .min(2, { message: "Username must be at least 2 characters" })
+      .max(30, { message: "Username can't exceed 30 characters" }),
     email: z
       .email({ message: "Enter a valid email" })
       .min(1, { message: "Email is required" }),
@@ -24,3 +28,13 @@ export const signupSchema = z
 
 export type LoginValues = z.infer<typeof loginSchema>;
 export type SignupValues = z.infer<typeof signupSchema>;
+
+export const habitSchema = z.object({
+  title: z
+    .string()
+    .trim()
+    .min(1, { message: "Title is required" })
+    .max(40, { message: "Max 40 characters" }),
+});
+
+export type HabitValues = z.infer<typeof habitSchema>;

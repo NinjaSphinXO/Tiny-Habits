@@ -28,14 +28,19 @@ const SignupPage = () => {
   } = useForm<SignupValues>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
+      username: "",
       email: "",
       password: "",
       confirmPassword: "",
     },
   });
 
-  const onSubmit = async ({ email, password }: SignupValues) => {
-    const { error } = await supabase.auth.signUp({ email, password });
+  const onSubmit = async ({ username, email, password }: SignupValues) => {
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { data: { username } },
+    });
     if (error) toast.error(error.message);
   };
 
@@ -51,6 +56,25 @@ const SignupPage = () => {
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <FieldGroup>
+              {/* Username Field */}
+              <Field data-invalid={!!errors.username}>
+                <FieldLabel htmlFor="signup-username">Username</FieldLabel>
+                <Input
+                  id="signup-username"
+                  type="text"
+                  placeholder="your_username"
+                  autoComplete="username"
+                  aria-invalid={!!errors.username}
+                  aria-describedby={errors.username ? "signup-username-error" : undefined}
+                  {...register("username")}
+                />
+                {errors.username && (
+                  <FieldError id="signup-username-error">
+                    {errors.username.message}
+                  </FieldError>
+                )}
+              </Field>
+
               {/* Email Field */}
               <Field data-invalid={!!errors.email}>
                 <FieldLabel htmlFor="signup-email">Email</FieldLabel>

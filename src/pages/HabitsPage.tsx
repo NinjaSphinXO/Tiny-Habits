@@ -1,7 +1,10 @@
 import AddHabitDialog from "@/components/AddHabitDialog";
 import HabitList from "@/components/HabitList";
+import OnlineBadge from "@/components/OnlineBadge";
 import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/hooks/redux";
+import { useHabitsRealtime } from "@/hooks/useHabitsRealtime";
+import { usePresence } from "@/hooks/usePresence";
 import { supabase } from "@/lib/supabase";
 import { getDisplayName } from "@/lib/user";
 import { useQueryClient } from "@tanstack/react-query";
@@ -17,6 +20,9 @@ const HabitsPage = () => {
   const user = useAppSelector((state) => state.auth.user);
   const queryClient = useQueryClient();
 
+  useHabitsRealtime();
+  const users = usePresence();
+
   return (
     <main className="mx-auto max-w-2xl space-y-6 p-6">
       {/* ── Header row ─────────────────────────────────────────── */}
@@ -26,6 +32,7 @@ const HabitsPage = () => {
           <p className="mt-0.5 text-sm text-muted-foreground">
             Signed in as {getDisplayName(user)}
           </p>
+          <OnlineBadge users={users} currentUserId={user?.id} />
         </div>
         <Button
           variant="outline"

@@ -6,9 +6,10 @@ import type { User } from "@supabase/supabase-js";
  * 2. email — otherwise
  * 3. "" — if the user is null
  */
+export const USERNAME_FALLBACK = "someone";
 export function getDisplayName(user: User | null): string {
-  if (!user) return "";
+  if (!user) return USERNAME_FALLBACK;
   const username = user.user_metadata?.username;
   if (typeof username === "string" && username) return username;
-  return user.email ?? "";
+  return user.email ?? USERNAME_FALLBACK;
 }

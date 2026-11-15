@@ -16,3 +16,8 @@ export type HabitLog = {
 export type HabitWithLogs = Habit & {
   habit_logs: Pick<HabitLog, "id" | "log_date">[];
 };
+
+export type PresenceUser = {
+  user_id: string;
+  username: string;
+};

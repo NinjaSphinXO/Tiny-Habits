@@ -144,7 +144,7 @@ const SignupPage = () => {
         </CardContent>
         <CardFooter className="justify-center text-sm text-muted-foreground">
           Already have an account?{" "}
-          <Link to="/login" className="font-medium text-primary hover:underline">
+          <Link to="/login" className="ms-1 font-medium text-primary hover:underline">
             Log in
           </Link>
         </CardFooter>

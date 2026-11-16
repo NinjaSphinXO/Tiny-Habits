@@ -56,7 +56,7 @@ const SignupPage = () => {
           <CardTitle className="text-2xl font-bold text-center">Sign up</CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <form noValidate onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <FieldGroup>
               {/* Username Field */}
               <Field data-invalid={!!errors.username}>

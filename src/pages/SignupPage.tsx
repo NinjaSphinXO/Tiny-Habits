@@ -1,9 +1,12 @@
-import { useAppSelector } from "@/hooks/redux";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { signupSchema } from "@/lib/schemas";
-import type { SignupValues } from "@/lib/schemas";
 import { Link, Navigate } from "react-router";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+
+import { useAppSelector } from "@/hooks/redux";
+import { signupSchema } from "@/lib/schemas";
+import type { SignupValues } from "@/lib/schemas";
+import { supabase } from "@/lib/supabase";
 
 import {
   Card,
@@ -15,8 +18,6 @@ import {
 import { Field, FieldGroup, FieldLabel, FieldError } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/lib/supabase";
-import { toast } from "sonner";
 
 const SignupPage = () => {
   const { user, loading } = useAppSelector((state) => state.auth);
@@ -35,6 +36,7 @@ const SignupPage = () => {
     },
   });
 
+  // confirmPassword is only for the form: never send it to Supabase
   const onSubmit = async ({ username, email, password }: SignupValues) => {
     const { error } = await supabase.auth.signUp({
       email,
@@ -142,7 +144,7 @@ const SignupPage = () => {
         </CardContent>
         <CardFooter className="justify-center text-sm text-muted-foreground">
           Already have an account?{" "}
-          <Link to="/login" className="ml-1 font-medium text-primary hover:underline">
+          <Link to="/login" className="font-medium text-primary hover:underline">
             Log in
           </Link>
         </CardFooter>

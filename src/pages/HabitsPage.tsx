@@ -7,21 +7,21 @@ import { useHabitsRealtime } from "@/hooks/useHabitsRealtime";
 import { usePresence } from "@/hooks/usePresence";
 import { supabase } from "@/lib/supabase";
 import { getDisplayName } from "@/lib/user";
-import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-
-const todayReadable = new Date().toLocaleDateString(undefined, {
-  weekday: "long",
-  month: "long",
-  day: "numeric",
-});
 
 const HabitsPage = () => {
   const user = useAppSelector((state) => state.auth.user);
-  const queryClient = useQueryClient();
 
   useHabitsRealtime();
   const users = usePresence();
+
+  // display only: computed per render so it cannot go stale after midnight,
+  // and never used in a query key (keys use todayLocal())
+  const todayReadable = new Date().toLocaleDateString(undefined, {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  });
 
   return (
     <main className="mx-auto max-w-2xl space-y-6 p-6">
@@ -37,9 +37,9 @@ const HabitsPage = () => {
         <Button
           variant="outline"
           onClick={async () => {
+            // the cache is cleared by AuthListener on SIGNED_OUT
             const { error } = await supabase.auth.signOut();
-            if (error) return toast.error(error.message);
-            queryClient.clear();
+            if (error) toast.error(error.message);
           }}
         >
           Log out
